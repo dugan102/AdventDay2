@@ -8,6 +8,7 @@ digits = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}
 
 def checkGame(s):
     i = s.index(':') + 2
+    minGreen, minRed, minBlue = 0, 0, 0
     while i < len(s):
         num = ''
         if s[i] in digits:
@@ -15,22 +16,21 @@ def checkGame(s):
                 num += s[i]
                 i += 1
             if s[i+1:i+4] == 'red':
-                if int(num) > 12:
-                    return False
+                if int(num) > minRed:
+                    minRed = int(num)
             elif s[i+1:i+5] == 'blue':
-                if int(num) > 14:
-                    return False
+                if int(num) > minBlue:
+                    minBlue = int(num)
             elif s[i+1:i+6] == 'green':
-                if int(num) > 13:
-                    return False
+                if int(num) > minGreen:
+                    minGreen = int(num)
         i += 1
-    return True
+    return minBlue * minGreen * minRed
 
 total = 0
 
 for i in range(len(lines)):
-    if checkGame(lines[i]):
-        total += i+1
+    total += checkGame(lines[i])
 
 print(total)
 
